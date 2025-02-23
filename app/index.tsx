@@ -17,6 +17,7 @@ const games: GameItem[] = [
   { id: "5", name: "KhmerWords", path: "khmerwords" },
   { id: "6", name: "Gradients", path: "gradients" },
   { id: "7", name: "Simon", path: "simon" },
+  { id: "8", name: "SimonGame", path: "simongame" },
 ];
 
 const Home = () => {

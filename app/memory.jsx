@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Dimensions,
+} from "react-native";
 
 // Function to generate and shuffle cards (each emoji appears twice)
 const generateCards = () => {
-  const pairs = ['🐶', '🐱', '🐭', '🐹', '🐰', '🦊'];
+  const pairs = ["🐶", "🐱", "🐭", "🐹", "🐰", "🦊"];
   const cards = pairs.concat(pairs).map((value, index) => ({
     id: index,
     value,
@@ -23,7 +29,7 @@ const Memory = () => {
     const newCards = [...cards];
     // Ignore if already flipped or matched
     if (newCards[index].isFlipped || newCards[index].isMatched) return;
-    
+
     newCards[index].isFlipped = true;
     const newFlippedCards = [...flippedCards, { ...newCards[index], index }];
     setCards(newCards);
@@ -60,10 +66,10 @@ const Memory = () => {
       key={card.id}
       style={styles.card}
       onPress={() => handleCardPress(index)}
-      testID={`card-${card.id}`} 
+      testID={`card-${card.id}`}
     >
       <Text style={styles.cardText}>
-        {card.isFlipped || card.isMatched ? card.value : '❓'}
+        {card.isFlipped || card.isMatched ? card.value : "❓"}
       </Text>
     </TouchableOpacity>
   );
@@ -78,32 +84,32 @@ const Memory = () => {
   );
 };
 
-const screenWidth = Dimensions.get('window').width;
+const screenWidth = Dimensions.get("window").width;
 const cardSize = screenWidth / 3 - 20;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 50,
-    alignItems: 'center',
-    backgroundColor: '#fff',
+    alignItems: "center",
+    backgroundColor: "#fff",
   },
   title: {
     fontSize: 24,
     marginBottom: 20,
   },
   grid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
   },
   card: {
     width: cardSize,
     height: cardSize,
     margin: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f1c40f',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#f1c40f",
     borderRadius: 10,
   },
   cardText: {

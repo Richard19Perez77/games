@@ -36,6 +36,9 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "jest": {
+      "preset": "react-native"
     }
   }
 }

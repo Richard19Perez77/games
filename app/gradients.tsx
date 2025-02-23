@@ -18,7 +18,7 @@ const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 const textGive = "Gradients\n\nTap anywhere to move the gradient!";
 
 const Gradients = () => {
-  const animatedRadius = useRef(new Animated.Value(0.5)).current;
+  const animatedRadius = useRef(new Animated.Value(0.1)).current;
   const [textSize, setTextSize] = useState({ width: 0, height: 0 });
   const [gradientCenter, setGradientCenter] = useState({
     cx: "50%",
@@ -29,7 +29,7 @@ const Gradients = () => {
     Animated.loop(
       Animated.sequence([
         Animated.timing(animatedRadius, {
-          toValue: 0.9,
+          toValue: 0.8,
           duration: 500,
           easing: Easing.inOut(Easing.ease),
           useNativeDriver: false,

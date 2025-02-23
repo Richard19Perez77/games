@@ -1,8 +1,21 @@
-import React, { PureComponent } from 'react';
-import { View, StyleSheet, Dimensions } from 'react-native';
+import React, { useRef, useState, useCallback, useEffect } from 'react';
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  PanResponder,
+  GestureResponderEvent,
+  PanResponderGestureState,
+  SafeAreaView,
+} from 'react-native';
 import { GameEngine } from 'react-native-game-engine';
 
-const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
+
+// Constants for paddle sizing and positioning
+const PADDLE_HEIGHT = 20;
+// For debugging, we temporarily position the paddle 150px from the top
+const DEBUG_PADDLE_Y = 150; 
 
 interface Vector {
   x: number;
@@ -18,7 +31,6 @@ interface PaddleBody {
   position: Vector;
 }
 
-// Change the renderer type to React.ComponentType so that it accepts the component class itself
 interface BallEntity {
   body: BallBody;
   size: number;
@@ -44,11 +56,11 @@ interface PhysicsArgs {
 
 const Physics = (entities: Entities, { time }: PhysicsArgs): Entities => {
   const ball = entities.ball;
-  // Update ball position based on velocity and time delta
+  // Update ball's position using its velocity and the time delta
   ball.body.position.x += ball.body.velocity.x * time.delta;
   ball.body.position.y += ball.body.velocity.y * time.delta;
 
-  // Bounce off the left and right walls
+  // Bounce off left/right walls
   if (ball.body.position.x <= 0 || ball.body.position.x + ball.size >= ball.screenWidth) {
     ball.body.velocity.x = -ball.body.velocity.x;
   }
@@ -59,10 +71,7 @@ const Physics = (entities: Entities, { time }: PhysicsArgs): Entities => {
   // Reset the ball if it falls below the screen
   if (ball.body.position.y >= ball.screenHeight) {
     ball.body.position = { x: ball.screenWidth / 2, y: ball.screenHeight / 2 };
-    // Optionally, adjust velocity for a new serve
   }
-
-  // Additional collision logic (e.g., with the paddle) would go here
 
   return entities;
 };
@@ -72,89 +81,123 @@ interface BallProps {
   size: number;
 }
 
-class Ball extends PureComponent<BallProps> {
-  render() {
-    const { body, size } = this.props;
-    return (
-      <View
-        style={[
-          styles.ball,
-          {
-            width: size,
-            height: size,
-            left: body.position.x,
-            top: body.position.y,
-          },
-        ]}
-      />
-    );
-  }
-}
+const Ball: React.FC<BallProps> = ({ body, size }) => (
+  <View
+    style={[
+      styles.ball,
+      {
+        width: size,
+        height: size,
+        left: body.position.x,
+        top: body.position.y,
+      },
+    ]}
+  />
+);
 
 interface PaddleProps {
   body: PaddleBody;
   size: { width: number; height: number };
 }
 
-class Paddle extends PureComponent<PaddleProps> {
-  render() {
-    const { body, size } = this.props;
-    return (
-      <View
-        style={[
-          styles.paddle,
-          {
-            width: size.width,
-            height: size.height,
-            left: body.position.x,
-            top: body.position.y,
-          },
-        ]}
-      />
-    );
-  }
-}
+const Paddle: React.FC<PaddleProps> = ({ body, size }) => {
+  console.log('Paddle Position:', body.position);
+  return (
+    <View
+      style={[
+        styles.paddle,
+        {
+          width: size.width,
+          height: size.height,
+          left: body.position.x,
+          top: body.position.y,
+        },
+      ]}
+    />
+  );
+};
 
-export default class BreakoutGame extends PureComponent {
-  render() {
-    const ball: BallEntity = {
+const BreakoutGame: React.FC = () => {
+  // Use container height from layout
+  const [containerHeight, setContainerHeight] = useState<number>(Dimensions.get('window').height);
+  const gameEngineRef = useRef<GameEngine>(null);
+
+  // For debugging, we override the paddle's Y position to a fixed value.
+  const createEntities = useCallback((): Entities => ({
+    ball: {
       body: {
-        position: { x: SCREEN_WIDTH / 2, y: SCREEN_HEIGHT / 2 },
+        position: { x: SCREEN_WIDTH / 2, y: containerHeight / 2 },
         velocity: { x: 0.2, y: -0.2 },
       },
       size: 20,
       screenWidth: SCREEN_WIDTH,
-      screenHeight: SCREEN_HEIGHT,
-      renderer: Ball, // Pass the component type, not an element instance
-    };
-
-    const paddle: PaddleEntity = {
+      screenHeight: containerHeight,
+      renderer: Ball,
+    },
+    paddle: {
       body: {
-        position: { x: SCREEN_WIDTH / 2 - 50, y: SCREEN_HEIGHT - 30 },
+        // For testing, position paddle at a fixed Y (DEBUG_PADDLE_Y)
+        position: { x: SCREEN_WIDTH / 2 - 50, y: DEBUG_PADDLE_Y },
       },
-      size: { width: 100, height: 20 },
-      renderer: Paddle, // Pass the component type here as well
-    };
+      size: { width: 100, height: PADDLE_HEIGHT },
+      renderer: Paddle,
+    },
+  }), [containerHeight]);
 
-    const entities: Entities = {
-      ball,
-      paddle,
-    };
+  const entitiesRef = useRef<Entities>(createEntities());
 
-    return (
-      <GameEngine
-        systems={[Physics]}
-        entities={entities}
-        style={styles.container}
-      />
-    );
-  }
-}
+  useEffect(() => {
+    entitiesRef.current = createEntities();
+    if (gameEngineRef.current) {
+      (gameEngineRef.current as any).swap(entitiesRef.current);
+    }
+  }, [containerHeight, createEntities]);
+
+  const panResponder = useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onPanResponderMove: (evt: GestureResponderEvent, gestureState: PanResponderGestureState) => {
+        entitiesRef.current.paddle.body.position.x =
+          gestureState.moveX - entitiesRef.current.paddle.size.width / 2;
+        if (gameEngineRef.current) {
+          (gameEngineRef.current as any).swap(entitiesRef.current);
+        }
+      },
+    })
+  ).current;
+
+  return (
+    <SafeAreaView
+      style={styles.safeArea}
+      onLayout={(e) => {
+        const { height } = e.nativeEvent.layout;
+        setContainerHeight(height);
+      }}
+    >
+      <View style={styles.container} {...panResponder.panHandlers}>
+        <GameEngine
+          ref={gameEngineRef}
+          systems={[Physics]}
+          entities={entitiesRef.current}
+          style={styles.gameEngine}
+        />
+      </View>
+    </SafeAreaView>
+  );
+};
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#EEE', // Light background to see container bounds
+  },
   container: {
     flex: 1,
     backgroundColor: '#FFF',
+  },
+  gameEngine: {
+    flex: 1,
+    width: SCREEN_WIDTH,
   },
   ball: {
     position: 'absolute',
@@ -164,5 +207,11 @@ const styles = StyleSheet.create({
   paddle: {
     position: 'absolute',
     backgroundColor: 'blue',
+    borderWidth: 2,
+    borderColor: 'yellow', // Debug border
+    zIndex: 999,
+    elevation: 999, // For Android
   },
 });
+
+export default BreakoutGame;

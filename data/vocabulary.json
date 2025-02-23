@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "khmer": "សួស្តី",
+    "english": "Hello",
+    "pronounce": "suostei - soo oh st-eye"
+  },
+  {
+    "id": 2,
+    "khmer": "អរគុណ",
+    "english": "Thank you",
+    "pronounce": "arkoun - ar cone"
+  },
+  {
+    "id": 3,
+    "khmer": "លាហើយ",
+    "english": "Goodbye",
+    "pronounce": "leahaey - lee high"
+  },
+  {
+    "id": 4,
+    "khmer": "មានរឿងអី?",
+    "english": "What's the matter?",
+    "pronounce": "mean rueng ei? - mean roong eye"
+  },
+  {
+    "id": 5,
+    "khmer": "ខ្ញុំឈ្មោះ Rick",
+    "english": "My name is Rick",
+    "pronounce": "khnhom chhmoh Rick - kyome ch mo Rick"
+  }
+]

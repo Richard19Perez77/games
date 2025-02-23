@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import { StyleSheet } from 'react-native';
 
+// text based dungeon crawler
 const TextCrawler = () => {
   return (
     <View style={styles.container}>

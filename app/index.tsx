@@ -13,6 +13,8 @@ const games: GameItem[] = [
   { id: "1", name: "TicTacToe", path: "tictactoe" },
   { id: "2", name: "Memory", path: "memory" },
   { id: "3", name: "TextCrawler", path: "textcrawler" },
+  { id: "4", name: "Breakout", path: "breakout" },
+  { id: "5", name: "KhmerWords", path: "khmerwords" },
 ];
 
 const Home = () => {

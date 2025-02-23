@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Alert } from 'react-native';
-import { StyleSheet } from 'react-native';
+import React, { useState } from "react";
+import { View, Text, TouchableOpacity, Alert } from "react-native";
+import { StyleSheet } from "react-native";
 
 const TicTacToe = () => {
   const [board, setBoard] = useState<(string | null)[]>(Array(9).fill(null));
@@ -8,14 +8,23 @@ const TicTacToe = () => {
 
   const calculateWinner = (squares: (string | null)[]): string | null => {
     const lines = [
-      [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
-      [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
-      [0, 4, 8], [2, 4, 6], // Diagonals
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8], // Rows
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8], // Columns
+      [0, 4, 8],
+      [2, 4, 6], // Diagonals
     ];
 
     for (let line of lines) {
       const [a, b, c] = line;
-      if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+      if (
+        squares[a] &&
+        squares[a] === squares[b] &&
+        squares[a] === squares[c]
+      ) {
         return squares[a];
       }
     }
@@ -26,7 +35,7 @@ const TicTacToe = () => {
     if (board[index] || calculateWinner(board)) return;
 
     const newBoard = [...board];
-    newBoard[index] = isXNext ? 'X' : 'O';
+    newBoard[index] = isXNext ? "X" : "O";
     setBoard(newBoard);
     setIsXNext(!isXNext);
 
@@ -34,7 +43,7 @@ const TicTacToe = () => {
     if (winner) {
       Alert.alert(`Player ${winner} wins!`);
     } else if (!newBoard.includes(null)) {
-      Alert.alert('It\'s a draw!');
+      Alert.alert("It's a draw!");
     }
   };
 
@@ -76,45 +85,44 @@ const TicTacToe = () => {
   );
 };
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#f5f5f5',
-    alignItems: 'center',
+    backgroundColor: "#f5f5f5",
+    alignItems: "center",
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 20,
   },
   board: {
     marginBottom: 20,
   },
   row: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   square: {
     width: 80,
     height: 80,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
   },
   squareText: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   resetButton: {
     padding: 10,
-    backgroundColor: '#007bff',
+    backgroundColor: "#007bff",
     borderRadius: 5,
   },
   resetText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 16,
   },
 });

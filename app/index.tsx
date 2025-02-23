@@ -15,6 +15,8 @@ const games: GameItem[] = [
   { id: "3", name: "TextCrawler", path: "textcrawler" },
   { id: "4", name: "Breakout", path: "breakout" },
   { id: "5", name: "KhmerWords", path: "khmerwords" },
+  { id: "6", name: "Gradients", path: "gradients" },
+  { id: "7", name: "Simon", path: "simon" },
 ];
 
 const Home = () => {

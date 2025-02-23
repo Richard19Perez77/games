@@ -21,6 +21,7 @@ const SimonBoard: React.FC<SimonBoardProps> = ({
           testID={`button-${color}`}
           style={[
             styles.button,
+            { backgroundColor: color },
             activeColor === color && styles.activeButton,
           ]}
           onPress={() => handleUserPress(color)}

@@ -1,3 +1,14 @@
+import { init } from "detox";
+import config from "../../package.json";
+
+beforeAll(async () => {
+  await init(config.detox);
+}, 30000);
+
+afterAll(async () => {
+  await device.cleanup();
+});
+
 describe('Example', () => {
   beforeAll(async () => {
     await device.launchApp();

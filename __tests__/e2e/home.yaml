@@ -1,0 +1,4 @@
+appId: com.rick.games
+---
+- launchApp
+- assertVisible: "index"

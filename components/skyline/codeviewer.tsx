@@ -8,11 +8,9 @@ interface CodeViewerProps {
 
 const CodeViewer: React.FC<CodeViewerProps> = ({ code }) => {
   return (
-    <View style={styles.container}>
       <ScrollView style={styles.scrollView} testID="scrollView">
         <Text style={styles.codeText}>{code}</Text>
       </ScrollView>
-    </View>
   );
 };
 

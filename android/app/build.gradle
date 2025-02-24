@@ -1,15 +1,30 @@
 android {
+    compileSdkVersion 33
+
     defaultConfig {
+        applicationId "com.yourapp"
+        minSdkVersion 21
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0"
         testBuildType System.getProperty('testBuildType', 'debug')
-        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("keystore.jks")
+            storePassword "yourpassword"
+            keyAlias "youralias"
+            keyPassword "yourpassword"
+        }
     }
 
     buildTypes {
         release {
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             proguardFile "${rootProject.projectDir}/../node_modules/detox/android/detox/proguard-rules-app.pro"
 
             signingConfig signingConfigs.release
@@ -17,8 +32,9 @@ android {
     }
 
     dependencies {
-        androidTestImplementation('com.wix:detox:+')
-        implementation 'androidx.appcompat:appcompat:1.1.0'
+        implementation "androidx.appcompat:appcompat:1.1.0"
         implementation fileTree(dir: "libs", include: ["*.jar"])
+
+        androidTestImplementation('com.wix:detox:+') 
     }
 }

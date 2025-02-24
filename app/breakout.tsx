@@ -98,7 +98,6 @@ interface PaddleProps {
 }
 
 const Paddle: React.FC<PaddleProps> = ({ body, size }) => {
-  console.log('Paddle Position:', body.position);
   return (
     <View
       style={[

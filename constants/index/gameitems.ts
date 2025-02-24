@@ -9,4 +9,5 @@ export const games: GameItem[] = [
   { id: "6", name: "Gradients", path: "gradients" },
   { id: "7", name: "SimonGame", path: "simongame" },
   { id: "8", name: "TextRPG", path: "textrpg" },
+  { id: "9", name: "Skyline", path: "skyline" },
 ];

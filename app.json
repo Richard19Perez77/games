@@ -39,6 +39,14 @@
     },
     "jest": {
       "preset": "react-native"
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "6535d7db-440c-45fe-baef-4305134b032a"
+      }
     }
   }
 }

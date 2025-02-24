@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity, FlatList } from "react-native";
-import { StyleSheet } from "react-native";
 import { useRouter } from "expo-router"; // Import useNavigation
+import { styles } from "../styles/index/indexstyles";
 
 type GameItem = {
   id: string;
@@ -17,6 +17,7 @@ const games: GameItem[] = [
   { id: "5", name: "KhmerWords", path: "khmerwords" },
   { id: "6", name: "Gradients", path: "gradients" },
   { id: "7", name: "SimonGame", path: "simongame" },
+  { id: "8", name: "TextRPG", path: "textrpg" },
 ];
 
 const Home = () => {
@@ -42,30 +43,5 @@ const Home = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: "#f5f5f5",
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
-    textAlign: "center",
-  },
-  gameItem: {
-    padding: 15,
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    marginBottom: 10,
-    alignItems: "center",
-  },
-  gameText: {
-    fontSize: 18,
-    fontWeight: "500",
-  },
-});
 
 export default Home;

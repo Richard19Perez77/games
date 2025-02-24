@@ -1,11 +1,6 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Dimensions,
-} from "react-native";
+import { View, Text, TouchableOpacity, Dimensions } from "react-native";
+import { styles } from "../styles/memory/memorystyles";
 
 // Function to generate and shuffle cards (each emoji appears twice)
 const generateCards = () => {
@@ -23,6 +18,8 @@ const generateCards = () => {
 const Memory = () => {
   const [cards, setCards] = useState(generateCards());
   const [flippedCards, setFlippedCards] = useState([]);
+
+  var cardSize = screenWidth / 3 - 20;
 
   // Handle card press
   const handleCardPress = (index) => {
@@ -64,7 +61,7 @@ const Memory = () => {
   const renderCard = (card, index) => (
     <TouchableOpacity
       key={card.id}
-      style={styles.card}
+      style={[styles.card, { width: cardSize, height: cardSize }]}
       onPress={() => handleCardPress(index)}
       testID={`card-${card.id}`}
     >
@@ -85,37 +82,6 @@ const Memory = () => {
 };
 
 const screenWidth = Dimensions.get("window").width;
-const cardSize = screenWidth / 3 - 20;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 50,
-    alignItems: "center",
-    backgroundColor: "#fff",
-  },
-  title: {
-    fontSize: 24,
-    marginBottom: 20,
-  },
-  grid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "center",
-  },
-  card: {
-    width: cardSize,
-    height: cardSize,
-    margin: 10,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#f1c40f",
-    borderRadius: 10,
-  },
-  cardText: {
-    fontSize: 32,
-  },
-});
 
 export default Memory;
 export { generateCards };

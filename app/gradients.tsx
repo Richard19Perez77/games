@@ -10,6 +10,7 @@ import {
   Dimensions, // Import to get screen width & height
 } from "react-native";
 import Svg, { Defs, Rect, RadialGradient, Stop } from "react-native-svg";
+import { styles } from "../styles/gradients/gradientsstyles";
 
 const AnimatedRadialGradient = Animated.createAnimatedComponent(RadialGradient);
 
@@ -116,24 +117,5 @@ const Gradients = () => {
     </Pressable>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  textContainer: {
-    padding: 10,
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-  },
-  text: {
-    fontSize: 24,
-    color: "white",
-    textAlign: "center",
-  },
-});
 
 export default Gradients;

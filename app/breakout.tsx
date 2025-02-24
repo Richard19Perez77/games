@@ -9,13 +9,11 @@ import {
   SafeAreaView,
 } from 'react-native';
 import { GameEngine } from 'react-native-game-engine';
+import { styles } from "../styles/breakout/breakoutstyles";
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
-
-// Constants for paddle sizing and positioning
 const PADDLE_HEIGHT = 20;
-// For debugging, we temporarily position the paddle 150px from the top
-const DEBUG_PADDLE_Y = 150; 
+export const PADDLE_BORDER = 2;
 
 interface Vector {
   x: number;
@@ -137,7 +135,7 @@ const BreakoutGame: React.FC = () => {
     paddle: {
       body: {
         // For testing, position paddle at a fixed Y (DEBUG_PADDLE_Y)
-        position: { x: SCREEN_WIDTH / 2 - 50, y: DEBUG_PADDLE_Y },
+        position: { x: SCREEN_WIDTH / 2 - 50, y: containerHeight - PADDLE_HEIGHT - PADDLE_BORDER },
       },
       size: { width: 100, height: PADDLE_HEIGHT },
       renderer: Paddle,
@@ -179,39 +177,11 @@ const BreakoutGame: React.FC = () => {
           ref={gameEngineRef}
           systems={[Physics]}
           entities={entitiesRef.current}
-          style={styles.gameEngine}
+          style={[styles.gameEngine, { width: SCREEN_WIDTH }]}
         />
       </View>
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: '#EEE', // Light background to see container bounds
-  },
-  container: {
-    flex: 1,
-    backgroundColor: '#FFF',
-  },
-  gameEngine: {
-    flex: 1,
-    width: SCREEN_WIDTH,
-  },
-  ball: {
-    position: 'absolute',
-    borderRadius: 10,
-    backgroundColor: 'red',
-  },
-  paddle: {
-    position: 'absolute',
-    backgroundColor: 'blue',
-    borderWidth: 2,
-    borderColor: 'yellow', // Debug border
-    zIndex: 999,
-    elevation: 999, // For Android
-  },
-});
 
 export default BreakoutGame;

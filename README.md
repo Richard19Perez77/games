@@ -33,3 +33,7 @@ Ascii meets text adventure...
 ## textrpg
 
 Princess maker meets lost in the forest!
+
+## fill in the algorithm
+
+Fill in the gaps and test your answers...

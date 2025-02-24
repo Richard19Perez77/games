@@ -1,7 +1,6 @@
 import React, { useRef, useState, useCallback, useEffect } from 'react';
 import {
   View,
-  StyleSheet,
   Dimensions,
   PanResponder,
   GestureResponderEvent,
